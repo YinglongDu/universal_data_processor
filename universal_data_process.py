@@ -10,12 +10,12 @@ import cv2
 import datetime
 from data_tools import divide_data,openreadtxt,bbox_to_yolo,write2file
 
-
+# date
 def universal_bbox2yolo(data_path,label_dict=None,train_test_val_ratio=[]):
     if data_path[-1] != '/': data_path += "/"
     image_path = data_path+"images/"
     txts_path = data_path+"txts/"
-    
+
     img_list = os.listdir(image_path) # get image_list
     total = len(img_list)
     print("Number of all pictures:",total)
