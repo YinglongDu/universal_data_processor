@@ -1,9 +1,6 @@
-# data
-
-from optparse import TitledHelpFormatter
-from unittest import result
 import cv2
 import os
+import json
 import tqdm
 import random
 import matplotlib.pyplot as plt
@@ -135,10 +132,6 @@ def bbox2yolo(image_path,label_path,classes=False):
             f.write(str(title)+" "+str(bbox[0])+" "+str(bbox[1])+" "+str(bbox[2])+" "+str(bbox[3])+'\n')
         f.close()
 
-import json
-import os
-
-
 def convert(img_size, box):
     x1 = box[0]
     y1 = box[1]
@@ -155,7 +148,7 @@ def convert(img_size, box):
 
 
 
-def decode_json(save_path, jsonfloder_path, json_name, classes):
+def decode_json(save_path, json_folder_path, json_name, classes):
     txt_name = save_path + json_name[0:-5] + '.txt'
     # txt保存位置
 
