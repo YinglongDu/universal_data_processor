@@ -6,7 +6,7 @@
 import cv2
 import os
 import tqdm
-from data_tools import read_common, write2file
+from data_tools import read_common, write2file, draw_plt
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -61,40 +61,21 @@ def Analytical_data_distribution(image_path, label_path, tags, label_format="bbo
                     Area_ratio[str(bbox[1])][(str(a_ratio))] = 1
 
         #write_h_w_ratio
-        x_data = list(h_w_ratio.keys())
+        draw_plt(h_w_ratio, "Image_aspect_ratio", "h/w ratio", "quantity", result_path+"Image_aspect_ratio.png")
 
-        for i in x_data:
-            plt.bar(i, h_w_ratio[i])
-        plt.title("Image aspect ratio h/w")
-        plt.xlabel("h/w ratio")
-        plt.ylabel("quantity")
-        plt.gcf().set_size_inches(32, 32)  # get current figure
-        plt.savefig(result_path+"Image aspect ratio h/w.png", dpi=300)
-        plt.close()
 
         # write image's distribution
-
-        x_data = list(distribution.keys())
-        for i in x_data:
-            plt.bar(i, distribution[i])
-        plt.title("image's distribution")
-        plt.xlabel("distribution")
-        plt.ylabel("quantity")
-        plt.gcf().set_size_inches(32, 32)  # get current figure
-        plt.savefig(result_path+"image's distribution.png", dpi=300)
-        plt.close()
+        draw_plt(distribution, "image's_distribution", "distribution", "quantity",
+                 result_path+"image's_distribution.png")
 
         #  Area ratio of each tag
         Ads = Area_ratio.keys()
         for Ad in Ads:
-            x_data = list(Area_ratio[Ad].keys())
-            for i in x_data:
-                plt.bar(i, Area_ratio[Ad][i])
-            plt.title("Area ratio of"+Ad)
-            plt.xlabel("Area_ratio")
-            plt.ylabel("quantity")
-            plt.gcf().set_size_inches(32, 32)  # get current figure
-            plt.savefig(result_path+"Area ratio of"+Ad+".png", dpi=300)
-            plt.close()
+            draw_plt(Area_ratio[Ad], "Area ratio of"+Ad, "Area_ratio", "quantity",
+                     result_path+"Area ratio of"+Ad+".png")
+
     write2file(data_state, result_path + "Info.txt", add=True)
     print("Analytical_data_distribution is done, Have a nice day!")
+
+
+
