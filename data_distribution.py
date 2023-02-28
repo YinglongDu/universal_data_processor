@@ -31,7 +31,7 @@ def Analytical_data_distribution(image_path, label_path, tags, label_format="bbo
     for i in tags:
         Area_ratio[i] = dict()
     for i in tqdm.tqdm(images):
-        img = cv2.imread(image_path+i) if i[:-1] == 'g' else ""
+        img = cv2.imread(image_path+i) if i[-1] == 'g' else ""
         if img == "": continue
         h, w = img.shape[0], img.shape[1]
         ratio = round(h/w, 1)
@@ -62,11 +62,9 @@ def Analytical_data_distribution(image_path, label_path, tags, label_format="bbo
 
         #write_h_w_ratio
         x_data = list(h_w_ratio.keys())
-        plt.rcParams["font.sans-serif"] = ["SimHei"]
-        plt.rcParams["axes.unicode_minus"] = False
 
         for i in x_data:
-            plt.bar(x_data[i], h_w_ratio[i])
+            plt.bar(i, h_w_ratio[i])
         plt.title("Image aspect ratio h/w")
         plt.xlabel("h/w ratio")
         plt.ylabel("quantity")
@@ -75,11 +73,10 @@ def Analytical_data_distribution(image_path, label_path, tags, label_format="bbo
         plt.close()
 
         # write image's distribution
-        plt.rcParams["font.sans-serif"] = ["SimHei"]
-        plt.rcParams["axes.unicode_minus"] = False
+
         x_data = list(distribution.keys())
         for i in x_data:
-            plt.bar(x_data[i], distribution[i])
+            plt.bar(i, distribution[i])
         plt.title("image's distribution")
         plt.xlabel("distribution")
         plt.ylabel("quantity")
@@ -90,11 +87,9 @@ def Analytical_data_distribution(image_path, label_path, tags, label_format="bbo
         #  Area ratio of each tag
         Ads = Area_ratio.keys()
         for Ad in Ads:
-            plt.rcParams["font.sans-serif"] = ["SimHei"]
-            plt.rcParams["axes.unicode_minus"] = False
             x_data = list(Area_ratio[Ad].keys())
             for i in x_data:
-                plt.bar(x_data[i], Area_ratio[Ad][i])
+                plt.bar(i, Area_ratio[Ad][i])
             plt.title("Area ratio of"+Ad)
             plt.xlabel("Area_ratio")
             plt.ylabel("quantity")
