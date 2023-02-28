@@ -6,7 +6,7 @@
 import cv2
 import os
 import tqdm
-from data_tools import read_common, write2file, draw_plt
+from data_tools import read_common, write2file, draw_plt, bbox_to_yolo
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -46,7 +46,8 @@ def Analytical_data_distribution(image_path, label_path, tags, label_format="bbo
             distribution[str(d_ratio)] += 1
         else:
             distribution[str(d_ratio)] = 1
-        label = i[:-3] + ".txt"
+        label = i[:-3] + "txt"
+        print(label)
         try:
             bboxs = read_common(label_path + label, label_format)
         except:
@@ -54,11 +55,13 @@ def Analytical_data_distribution(image_path, label_path, tags, label_format="bbo
         if bboxs:
             # caculate 面积比
             for bbox in bboxs:
+                if label_format == 'yolo':
+                    bbox[1:]=bbox_to_yolo(bbox[1:], w, h)
                 a_ratio = round(bbox[3] * bbox[4] / (h*w), 1)
-                if Area_ratio[str(bbox[1])].get(str(a_ratio)):
-                    Area_ratio[str(bbox[1])][(str(a_ratio))] += 1
+                if Area_ratio[str(bbox[0])].get(str(a_ratio)):
+                    Area_ratio[str(bbox[0])][(str(a_ratio))] += 1
                 else:
-                    Area_ratio[str(bbox[1])][(str(a_ratio))] = 1
+                    Area_ratio[str(bbox[0])][(str(a_ratio))] = 1
 
     #write_h_w_ratio
     draw_plt(h_w_ratio, "Image_aspect_ratio", "h/w ratio", "quantity", result_path+"Image_aspect_ratio.png")
