@@ -31,8 +31,8 @@ def Analytical_data_distribution(image_path, label_path, tags, label_format="bbo
     for i in tags:
         Area_ratio[i] = dict()
     for i in tqdm.tqdm(images):
-        img = cv2.imread(image_path+i) if i[-1] == 'g' else ""
-        if img == "": continue
+        img = cv2.imread(image_path+i) if i[-1] == 'g' else None
+        if img is None: continue
         h, w = img.shape[0], img.shape[1]
         ratio = round(h/w, 1)
         if h_w_ratio.get(str(ratio)):
@@ -60,19 +60,19 @@ def Analytical_data_distribution(image_path, label_path, tags, label_format="bbo
                 else:
                     Area_ratio[str(bbox[1])][(str(a_ratio))] = 1
 
-        #write_h_w_ratio
-        draw_plt(h_w_ratio, "Image_aspect_ratio", "h/w ratio", "quantity", result_path+"Image_aspect_ratio.png")
+    #write_h_w_ratio
+    draw_plt(h_w_ratio, "Image_aspect_ratio", "h/w ratio", "quantity", result_path+"Image_aspect_ratio.png")
 
 
-        # write image's distribution
-        draw_plt(distribution, "image's_distribution", "distribution", "quantity",
-                 result_path+"image's_distribution.png")
+    # write image's distribution
+    draw_plt(distribution, "image's_distribution", "distribution", "quantity",
+             result_path+"image's_distribution.png")
 
-        #  Area ratio of each tag
-        Ads = Area_ratio.keys()
-        for Ad in Ads:
-            draw_plt(Area_ratio[Ad], "Area ratio of"+Ad, "Area_ratio", "quantity",
-                     result_path+"Area ratio of"+Ad+".png")
+    #  Area ratio of each tag
+    Ads = Area_ratio.keys()
+    for Ad in Ads:
+        draw_plt(Area_ratio[Ad], "Area ratio of"+Ad, "Area_ratio", "quantity",
+                 result_path+"Area ratio of"+Ad+".png")
 
     write2file(data_state, result_path + "Info.txt", add=True)
     print("Analytical_data_distribution is done, Have a nice day!")
