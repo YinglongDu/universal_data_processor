@@ -5,7 +5,7 @@ import tqdm
 import random
 import matplotlib.pyplot as plt
 import numpy as np
-def openreadtxt(file_name):
+def read_common(file_name, format = "bbox"):
     data = []
     try:
         file = open(file_name,'r',encoding='utf-8')
@@ -17,14 +17,15 @@ def openreadtxt(file_name):
     for row in file_date:
         try:
             tmp_list = row.split(' ')
-            tmp_list[-1] = tmp_list[-1].replace('\n','')
-            tmp_list = [tmp_list[0],int(tmp_list[1]),int(tmp_list[2]),int(tmp_list[3]),int(tmp_list[4])]
+            tmp_list[-1] = tmp_list[-1].replace('\n', '')
+            if format == "bbox":
+                tmp_list = [tmp_list[0], int(tmp_list[1]), int(tmp_list[2]), int(tmp_list[3]), int(tmp_list[4])]
             data.append(tmp_list)
         except:
             print(tmp_list)
     return data
 
-def openread_yolo(file_name):
+def read_coco(file_name, format = "bbox"):
     data = []
     try:
         file = open(file_name,'r',encoding='utf-8')
@@ -36,8 +37,9 @@ def openread_yolo(file_name):
     for row in file_date:
         try:
             tmp_list = row.split(' ')
-            tmp_list[-1] = tmp_list[-1].replace('\n','')
-            #tmp_list = [tmp_list[0],int(tmp_list[1]),int(tmp_list[2]),int(tmp_list[3]),int(tmp_list[4])]
+            tmp_list[-1] = tmp_list[-1].replace('\n', '')
+            if format == "bbox":
+                tmp_list = [tmp_list[0], int(tmp_list[1]), int(tmp_list[2]), int(tmp_list[3]), int(tmp_list[4])]
             data.append(tmp_list)
         except:
             print(tmp_list)
@@ -81,7 +83,7 @@ def yolo_to_bbox(yolo,w,h):
 # img:图片路径, label:标签路径,yolo=False:是否为yolo数据集格式,save=False:save的路径,show=False:True展示照片,classes=False:类别字典,contain=False,包含
 def show_picture(img, label,yolo=False,save=False,show=False,classes=False,contain=False,only_class=False):
     img = cv2.imread(img)
-    bboxs = openreadtxt(label)
+    bboxs = read_common(label)
     if len(bboxs) <= 5:
         bboxs = [bboxs]
     h,w = img.shape[0],  img.shape[1]
@@ -120,7 +122,7 @@ def bbox2yolo(image_path,label_path,classes=False):
         label_name = os.path.splitext(img)[0]+".txt" #取得标签名
         if label_name not in labels: continue
         img = cv2.imread(image_path+img)
-        bboxs = openreadtxt(label_path+label_name)
+        bboxs = read_common(label_path+label_name)
         h,w = img.shape[0],  img.shape[1]
         f = open('/data1/10cls/duyinglong/tools/labels/'+label_name,'w')
         for bbox in bboxs:

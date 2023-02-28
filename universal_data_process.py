@@ -8,7 +8,7 @@ import os
 import tqdm
 import cv2
 import datetime
-from data_tools import divide_data, openreadtxt, bbox_to_yolo, write2file
+from data_tools import divide_data, read_coco, bbox_to_yolo, write2file
 
 
 # date
@@ -34,7 +34,7 @@ def universal_bbox2yolo(data_path, label_dict=None, train_test_val_ratio=[]):
         for image in tqdm.tqdm(img_list):
             label = image.replace("jpg", 'txt')  # gets the label corresponding to the current image
             try:
-                bboxs = openreadtxt(txts_path + label)
+                bboxs = read_coco(txts_path + label)
             except:
                 # negative_sample
                 f = open(source + label, 'w')
