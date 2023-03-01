@@ -57,7 +57,7 @@ def Analytical_data_distribution(image_path, label_path, tags, label_format="bbo
             for bbox in bboxs:
                 if label_format == 'yolo':
                     bbox[1:]=bbox_to_yolo(bbox[1:], w, h)
-                a_ratio = round(bbox[3] * bbox[4] / (h*w), 1)
+                a_ratio = round(bbox[3] * bbox[4] / (h*w), 2)
                 if Area_ratio[str(bbox[0])].get(str(a_ratio)):
                     Area_ratio[str(bbox[0])][(str(a_ratio))] += 1
                 else:
